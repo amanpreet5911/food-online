@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
-{% load static %}
 
-{% block content  %}
-
+{% block content %}
 <!-- Main Section Start -->
-<		<div class="main-section">
+		<div class="main-section">
     <div class="page-section nopadding cs-nomargin" style="margin-top: 0px;padding-top: 60px;padding-bottom: 60px;margin-bottom: 0px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                     <div class="user-dashboard loader-holder">
                         <div class="user-holder">
-                        <div class="text-center" >
-                        <h1 class="text-danger" style="color:#c33332 !important;">Register</h1>
-                        </div>
-                        <hr>
-                        <br>
-
-
+                         <div class="text-center">
+                            <h3>LOG IN</h3>
+                            <p>Order from favourite resteraunt</p></div>
+                            <ul class="restaurant-settings-nav progressbar-nav">
+                                <li class="active processing"><a href="register-restaurant.html" class="cond-restaurant-settings1">Information</a></li>
+                                <li><a href="register-select-package.html" class="cond-restaurant-settings1">Select Package</a></li>
+                                <li><a href="register-payment-info.html" class="cond-restaurant-settings1">Payment Information</a></li>
+                                <li><a href="register-activation.html" class="cond-restaurant-settings1">Activation</a></li>
+                            </ul>
                             <div id="restaurant-sets-holder">
-                                <form action='{%url "register"%}'class="form-fields-set foodbakery-dev-restaurant-form" method="post" action="register-select-package.html">
+                                <form action='{%url "login"%}'class="form-fields-set foodbakery-dev-restaurant-form" method="post" action="multipart/form-data">
                                 {% csrf_token %}
                                  <ul class="register-add-restaurant-tab-container restaurant-information-tab-container">
                                         <li>
@@ -30,47 +30,19 @@
                                                             <li>
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                     <div class="field-holder">
-                                                                        <label>First Name</label>{{forms.first_name}}
-                                                                        {{forms.first_name.errors}}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                    <div class="field-holder">
-                                                                        <label>Last Name</label>{{forms.last_name}}
-                                                                        {{forms.last_name.errors}}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                    <div class="field-holder">
-                                                                        <label>Email</label>{{forms.email}}
-                                                                        {{forms.email.errors}}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                    <div class="field-holder">
-                                                                        <label>
-                                                                        Username
-                                                                            </label>{{forms.username}}
-                                                                            {{forms.username.errors}}
-                                                                    </div>
-                                                                
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                    <div class="field-holder">
-                                                                        <label>Password</label>{{forms.password}}
-                                                                        {{forms.password.errors}}
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                    <div class="field-holder">
-                                                                        <label>Confirm Password</label>{{forms.confirm_password}}
-                                                                        {{forms.confirm_password.errors}}
+                                                                        <label>Email Address</label>
+                                                                        <input type="email" name="email" placeholder="Enter your email here">
 
                                                                     </div>
-                                                                 </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="field-holder">
+                                                                        <label>Password</label>
+                                                                        <input type="password" name="password" placeholder="Enter your password here">
+                                                                        
+                                                                    </div>
+                                                                
                                                             </li>
-                                                            <li>
                                                                 {% comment %} <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                     <div class="element-title">
                                                                         <h4>Location</h4>
@@ -256,20 +228,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                    </ul> 
-                                        <li>
-                                            <ul class='errorlist'>
-                                                {% for field in forms %}
-                                                    {% if field.errors %}
-                                                        {% for errors in field.errors %}
-                                                                <li style="color: red;">{{errors}}</li>  
-                                                                
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                {% endfor %}      
-                                                <li style="color: red;">{{forms.non_field_errors}}</li>  
-                                            </ul>  
-                                        </li>    
+                                    </ul>    
 
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -277,11 +236,6 @@
                                                         <div class="payment-holder">
                                                             <div class="checkbox-area">
                                                                 <input type="checkbox" id="terms-59054637" name="terms-59054637" class="foodbakery-dev-req-field">
-                                                                <label for="terms-59054637">
-                                                                    By Registering You Confirm That You Accept The
-                                                                    <a target="_blank" href="contact-us.html">Terms &amp; conditions </a>
-                                                                    And <a target="_blank" href="price-plans.html">Privacy Policy </a>
-                                                                </label>
                                                             </div>
                                                             <input type="submit" value="Next" id="btn-next-restaurant-information" class="bgcolor">
                                                         </div>
@@ -307,9 +261,4 @@
     </div>
 </div>
 
-
-
-                                                
-<!-- Main Section End -->
-
-{% endblock %}
+{% endblock %} 

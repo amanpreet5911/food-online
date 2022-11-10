@@ -41,10 +41,10 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    RESTERAUNT=1
+    VENDOR=1
     CUSTOMER=2
     ROLE_CHOICE=(
-        (RESTERAUNT,'Resteraunt'),
+        (VENDOR,'Vendor'),
         (CUSTOMER,'Customer'),
     )
     first_name=models.CharField(max_length=100)
@@ -69,11 +69,18 @@ class User(AbstractBaseUser):
     objects=UserManager()
     
     def __str__(self):
-        return self.email
+        return self.username
     def has_perm(self,perm,obj=None):
         return self.is_admin
     def has_module_perms(self,app_label):
         return True
+    def get_role(self):
+        if self.role==1:
+            user_role='Vendor'
+        elif self.role==2:
+            user_role='customer'
+        return user_role       
+
 
 
 class UserProfile(models.Model):
