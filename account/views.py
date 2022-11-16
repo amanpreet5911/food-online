@@ -7,7 +7,7 @@ from django.contrib import messages,auth
 from .utils import *
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.core.exceptions import PermissionDenied
-
+from django.utils.http import urlsafe_base64_decode
 # Create your views here.
 
 def check_role_vendor(user):
@@ -26,7 +26,7 @@ def check_role_customer(user):
 def registeruser(request):
     if request.user.is_authenticated:
         messages.warning(request,"You are already logged in")
-        return redirect('dashboard')
+        return redirect('myaccount')
     form = UserForms()
     if request.method == "POST":
         form = UserForms(request.POST)
@@ -47,7 +47,8 @@ def registeruser(request):
                 password=password,
             )
             user.role = User.CUSTOMER
-            user.save()
+            user.save() 
+            send_verification_email(request,user)
             messages.success(request,"Your form has been submitted successfully")
             return redirect("register")
      
@@ -65,7 +66,7 @@ def registeruser(request):
 def registerVendor(request):
     if request.user.is_authenticated:
         messages.warning(request,"You are already logged in")
-        return redirect('dashboard')
+        return redirect('myaccount')
     if request.method=='POST':
         form=UserForms(request.POST)
         v_form=VendorForms(request.POST,request.FILES)
@@ -84,7 +85,9 @@ def registerVendor(request):
                 
             )
             user.role=User.VENDOR
+            # send_verification_email(request,user)
             user.save()
+            send_verification_email(request,user)
             vendor=v_form.save(commit=False)
             vendor.user=user
             user_profile=UserProfile.objects.get(user=user)
@@ -149,3 +152,36 @@ def myaccount(request):
     user=request.user
     redirectUrl=detectUser(user)
     return redirect(redirectUrl)
+
+
+
+def activate(request,uidb64,token):
+    try:
+        uid=urlsafe_base64_decode(uidb64).decode()
+        user=user._default_manager.get(pk=uid)
+    except(TypeError,ValueError,OverflowError,User.DoesNotExist):
+        user=None
+    if user is not None and default_token_generator.check_token(user,token):
+        user.is_active=True
+        user.save()
+        messages.success(request,"Yor account has been activated!!!!") 
+        return redirect("myaccount") 
+
+    else:
+        messages.error(request,"invalid link")
+        return redirect('myaccount')          
+
+
+def forgot_password(request):
+    return render(request,'accounts/forgot_password.html')   
+
+def reset_password_validate(request,uidb64,token):
+    return 
+
+def reset_password(request):
+    return render(request,'accounts/reset_password.html')   
+
+    
+
+        
+        
